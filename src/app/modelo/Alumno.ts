@@ -8,7 +8,7 @@ export class Alumno {
         public avatar:string,
         public address:string,
         public city:string,
-        public postalCode:string
+        //public postalCode:string
         )
     {  }
 
@@ -21,8 +21,8 @@ export class Alumno {
             jsonObject['gender'],
             jsonObject['avatar'],
             jsonObject['address'],
-            jsonObject['city'],
-            jsonObject['postalCode']);
+            jsonObject['city'])
+            //jsonObject['postalCode'])
             return alumno;
     }
     public getJsonObject():any
@@ -36,7 +36,7 @@ export class Alumno {
         jsonObject['avatar']=this.avatar;
         jsonObject['address']=this.address;
         jsonObject['city']=this.city;
-        jsonObject['postalCode']=this.postalCode;
+        //jsonObject['postalCode']=this.postalCode;
         return jsonObject;
     }
 }

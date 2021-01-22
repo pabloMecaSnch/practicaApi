@@ -4,8 +4,7 @@ import { Alumno } from '../../app/modelo/Alumno';
 
 @Injectable()
 export class ApiServiceProvider {
-    
-    private URL="http://172.16.17.254:3000";
+    private URL="http://localhost:3000";
 
     constructor(public http: HttpClient){
     }
@@ -41,4 +40,60 @@ export class ApiServiceProvider {
           return promise;
     }//end_eliminar_alumno
     
+    modificarAlumno(idAlumno:number, nuevosDatosAlumno:Alumno):Promise<Alumno>{
+        let promise = new Promise<Alumno>((resolve, reject) => {
+            var header = { "headers": {"Content-Type": "application/json"} };
+            let datos = nuevosDatosAlumno.getJsonObject();
+            this.http.put(this.URL+"/alumnos/"+idAlumno,
+                              JSON.stringify(datos),
+                              header).toPromise().then(
+              (data:any) => { // Success
+                let alumno:Alumno;
+                    alumno=Alumno.createFromJsonObject(data);
+                resolve(alumno);
+              }
+            )
+            .catch((error:Error)=>{
+              reject(error.message);});
+          });
+          return promise;
+    
+    }//end_modificar_alumno
+    insertarAlumno(datosNuevoAlumno:Alumno):Promise<Alumno>{
+
+        let promise = new Promise<Alumno>((resolve, reject) => {
+    
+            var header = { "headers": {"Content-Type": "application/json"} };
+    
+            let datos = datosNuevoAlumno.getJsonObject();
+    
+           delete datos.id; //cuando se hace un post no paso el id. El id es asignado por el servidor. Quito el atributo del objeto json
+    
+            this.http.post(this.URL+"/alumnos/",
+    
+                              JSON.stringify(datos),
+    
+                              header).toPromise().then(
+    
+              (data:any) => { // Success
+    
+                let alumno:Alumno;
+    
+                    alumno=Alumno.createFromJsonObject(data);
+    
+                resolve(alumno);
+    
+              }
+    
+            )
+    
+            .catch((error:Error)=>{
+    
+              reject(error.message);});
+    
+          });
+    
+          return promise;
+    
+    }//end_insertarAlumno
 }
