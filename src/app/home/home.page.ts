@@ -20,7 +20,6 @@ export class HomePage implements OnInit{
    this.apiService.getAlumnos().subscribe((resultadoConsultaAlumnos)=>{
      this.alumnos = new Array<Alumno>();
      resultadoConsultaAlumnos.forEach((datosAlumno:any) => {
-
         let alumnoJSONObject=datosAlumno.payload.doc.data();
         alumnoJSONObject.id=datosAlumno.payload.doc.id,
         this.alumnos.push(
