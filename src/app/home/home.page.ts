@@ -17,20 +17,23 @@ export class HomePage implements OnInit{
   
   
   ngOnInit(): void {
-   this.apiService.getAlumnos().then((alumnos:Alumno[])=>{
-     this.alumnos = alumnos;
-     console.log(this.alumnos);
-   })
-   .catch((error:string)=>{
-     console.log(error);
+   this.apiService.getAlumnos().subscribe((resultadoConsultaAlumnos)=>{
+     this.alumnos = new Array<Alumno>();
+     resultadoConsultaAlumnos.forEach((datosAlumno:any) => {
+
+        let alumnoJSONObject=datosAlumno.payload.doc.data();
+        alumnoJSONObject.id=datosAlumno.payload.doc.id,
+        this.alumnos.push(
+          Alumno.createFromJsonObject(alumnoJSONObject)
+        );       
+     });
    });
   }
 
   eliminarAlumno(indice:number){
     this.apiService.eliminarAlumno(this.alumnos[indice].id)
-    .then( (correcto:boolean ) => {
+    .then( ( ) => {
       console.log("Borrado correcto del alumno con indice: "+indice);
-      this.alumnos.splice(indice,1);
     })
     .catch( (error:string) => {
         console.log("Error al borrar: "+error);
@@ -110,8 +113,8 @@ export class HomePage implements OnInit{
               data['address'],
               data['city']);
             this.apiService.modificarAlumno(alumno.id,alumnoModificado)
-              .then( (alumno:Alumno)=> {
-                this.alumnos[indice]=alumno;
+              .then( ()=> {
+               console.log("alumno modificado");
               })
               .catch( (error:string) => {
                   console.log(error);
