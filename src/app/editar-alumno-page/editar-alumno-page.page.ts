@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
+import { ApiServiceProvider } from 'src/providers/api-service/api-service';
 import { Alumno } from '../modelo/Alumno';
 @Component({
   selector: 'app-editar-alumno-page',
@@ -14,7 +15,7 @@ export class EditarAlumnoPage implements OnInit {
   validations_form:FormGroup;
 
   constructor( public formBuilder: FormBuilder,
-    public modalCtrl: ModalController) { }
+    public modalCtrl: ModalController,private apiServece: ApiServiceProvider) { }
 
   ngOnInit() {
     this.alumno = JSON.parse(this.alumnoJson);
@@ -50,11 +51,7 @@ export class EditarAlumnoPage implements OnInit {
         Validators.pattern('^[a-z A-Z]+$'),
         Validators.required
         ])),
-      avatar: new FormControl(this.alumno.avatar, Validators.compose([
-        Validators.maxLength(100),
-        Validators.minLength(1),
-        Validators.required
-        ])),
+      avatar: new FormControl(this.alumno.avatar, Validators.required),
       gender: new FormControl(this.alumno.gender, Validators.compose([
         Validators.required
         ]))
@@ -67,5 +64,20 @@ export class EditarAlumnoPage implements OnInit {
 
   public closeModal(){
     this.modalCtrl.dismiss();
+  }
+  uploadImage(event:FileList){
+    console.log("hola");
+    var file:File=event.item(0);
+    var extension = file.name.substr(file.name.lastIndexOf('.')+1);
+    var fileName = '${new Date().getTime()}.${extension}';
+    this.validations_form.controls.avatar.setValue("");
+    this.apiServece.uploadImage(file,fileName)
+      .then((downloadUrl)=>{
+        this.alumno.avatar=downloadUrl;
+        this.validations_form.controls.avatar.setValue(downloadUrl);
+      })
+      .catch((error)=>{
+        console.log(error);
+      })
   }
 }

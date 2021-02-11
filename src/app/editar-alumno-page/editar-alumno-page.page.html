@@ -42,10 +42,16 @@
     </ion-item>
 
     <ion-item>
-      <ion-label position="floating" color="primary">avatar</ion-label>
+      <ion-label position="floating" color="primary">Avatar</ion-label>
 
-      <ion-input type="text" formControlName="avatar"></ion-input>
+      <ion-input type="text" formControlName="avatar" hidden></ion-input>
 
+      <ion-avatar>
+        <img [src]="alumno.avatar">
+      </ion-avatar>
+      <ion-button color="primary" shape="round" size="medium">
+        <input type="file" (change)="uploadImage($event.target.files)"/>
+      </ion-button>
     </ion-item>
 
     <ion-item>

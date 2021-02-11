@@ -30,9 +30,11 @@ export class HomePage implements OnInit{
   }
 
   eliminarAlumno(indice:number){
+    var urlAvatar=this.alumnos[indice].avatar;
     this.apiService.eliminarAlumno(this.alumnos[indice].id)
     .then( ( ) => {
       console.log("Borrado correcto del alumno con indice: "+indice);
+      this.apiService.removeImage(urlAvatar);
     })
     .catch( (error:string) => {
         console.log("Error al borrar: "+error);
