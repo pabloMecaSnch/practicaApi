@@ -36,6 +36,28 @@ export class ApiServiceProvider{
   actualizar(documentId,datos){
     return this.angularFirestore.collection("alumnos").doc(documentId).set(datos);
   }
+  getAlumnosPorCiudad(city:string):Promise<Alumno[]>{
+    var promise:Promise<Alumno[]> = new Promise<Alumno[]>((resolve,reject)=>{
+      const alumnosRef = this.angularFirestore.collection('alumnos').ref;
+      alumnosRef.where('city','==',city).get()
+      .then((response)=>{
+        var alumnos: Alumno[] = new Array<Alumno>();
+        if(response.empty)
+          resolve(alumnos);
+        response.forEach((data)=>{
+          var alumno:Alumno;
+          alumno=Alumno.createFromJsonObject(data.data());
+          alumno.id =data.id;
+          alumnos.push(alumno);
+        });
+        resolve(alumnos);
+      })
+      .catch((error)=>{
+        reject(error);
+      });
+    });
+    return promise;
+  }
   uploadImage(file: File, name:string):Promise<string> {
     var promise:Promise<string> = new Promise<string>( (resolve, reject)=>{
   

@@ -154,6 +154,8 @@ async nuevoAlumno(){
   return await modal.present();
 }//end nuevo alumno
 
+
+
 }
 
 
