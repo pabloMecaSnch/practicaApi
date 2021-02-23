@@ -3,8 +3,9 @@ import {Injectable} from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Alumno } from 'src/app/modelo/Alumno';
+
 import { AngularFireStorage } from '@angular/fire/storage';
+import { Alumno } from '../../app/modelo/Alumno';
 
 
 @Injectable()

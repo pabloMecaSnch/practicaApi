@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
-import { ApiServiceProvider } from 'src/providers/api-service/api-service';
+import { ApiServiceProvider } from '../../providers/api-service/api-service';
+
 import { Alumno } from '../modelo/Alumno';
 @Component({
   selector: 'app-editar-alumno-page',
@@ -51,7 +52,7 @@ export class EditarAlumnoPage implements OnInit {
         Validators.pattern('^[a-z A-Z]+$'),
         Validators.required
         ])),
-      avatar: new FormControl(this.alumno.avatar, Validators.required),
+      avatar: new FormControl(this.alumno.avatar,Validators.required),
       gender: new FormControl(this.alumno.gender, Validators.compose([
         Validators.required
         ]))

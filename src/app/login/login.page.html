@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>login</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="nuevoUsuario()">
+        <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="logger" (ngSubmit)="onSubmit(logger.value)">
+    <ion-item>
+      <ion-label position="floating">
+        Gmail
+      </ion-label>
+      <ion-input type="text" formControlName="gmail"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">
+        Contraseña
+      </ion-label>
+      <ion-input type="text" formControlName="contrasena"></ion-input>
+    </ion-item>
+    <ion-button color="primary" class="submit-btn" type="submit" [disabled]="!logger.valid">LogIn</ion-button>
+  </form>
+</ion-content>
